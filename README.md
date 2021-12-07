@@ -2,7 +2,8 @@
 
 This is a fork of the [discord/discord-rpc](https://github.com/discord/discord-rpc) repository. I just modified a few bits to support buttons with rich presence.
 
-You can use up to 2 buttons: I added the variables `button1_label`, `button1_url`, `button2_label` and `button2_url` to the `DiscordRichPresence` struct, declared in include/discord_rpc.h.
+You can use up to 2 buttons: I added the variables `button1_label`, `button1_url`, `button2_label` and `button2_url` to the `DiscordRichPresence` struct, declared in include/discord_rpc.h. As I didn't found much documentation on how to implement it, I looked at the one used in the [hipvpitsme/discord-rpc-with-buttons](https://github.com/hipvpitsme/discord-rpc-with-buttons) repo, and based off that, I modified the original C++ code. I needed a C++ implementation for my purposes.
+
 Either of each pair of fields can be used to add one button, or both at the same time for 2, of course. Be sure to provide both the label and the url for a button, as otherwise it won't be shown.
 The url provided for a button also needs to be "valid". I tested that if you provide a label for a button and the url is just "hello" for example, the presence update will be completely ignored. I did add some checks so this won't happen when you don't provide the fields for the buttons properly as explained before, so it just doesn't show the button(s), but I didn't for the validity of a link.
 
