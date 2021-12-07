@@ -133,6 +133,27 @@ size_t JsonWriteRichPresenceObj(char* dest,
                     WriteOptionalString(writer, "small_text", presence->smallImageText);
                 }
 
+                // only works if at least one is satisfied (both url and label provided)
+                bool button1_satisfied = ((presence->button1_label && presence->button1_label[0]) &&
+                                          (presence->button1_url && presence->button1_url[0]));
+                bool button2_satisfied = ((presence->button2_label && presence->button2_label[0]) &&
+                                          (presence->button2_url && presence->button2_url[0]));
+                if (button1_satisfied || button2_satisfied) {
+                    WriteArray buttons(writer, "buttons");
+
+                    if (button1_satisfied) {
+                        WriteObject button1(writer);
+                        WriteOptionalString(writer, "label", presence->button1_label);
+                        WriteOptionalString(writer, "url", presence->button1_url);
+                    }
+
+                    if (button2_satisfied) {
+                        WriteObject button2(writer);
+                        WriteOptionalString(writer, "label", presence->button2_label);
+                        WriteOptionalString(writer, "url", presence->button2_url);
+                    }
+                }
+
                 if ((presence->partyId && presence->partyId[0]) || presence->partySize ||
                     presence->partyMax || presence->partyPrivacy) {
                     WriteObject party(writer, "party");
